@@ -1,6 +1,8 @@
 from stats import count_words
 from stats import text_to_character_number
 from stats import structurize
+import sys
+
 def get_book_text(filepath):
     with open(filepath) as f:
     # do something with f (the file) here
@@ -9,11 +11,14 @@ def get_book_text(filepath):
     return file_contents
 
 def main():
-    book_content = get_book_text("books/frankenstein.txt")
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    book_content = get_book_text(sys.argv[1])
     num_words = count_words(book_content)
     dictionary = text_to_character_number(book_content)
     print("============ BOOKBOT ============")
-    print("Analyzing book found at books/frankenstein.txt...")
+    print(f"Analyzing book found at {sys.argv[1]}...")
     print("----------- Word Count ----------")
     print(f"Found {num_words} total words")
     print("--------- Character Count -------")
@@ -21,4 +26,6 @@ def main():
         if item["char"].isalpha():
             print(f"{item["char"]}: {item["num"]}")
     print("============= END ===============")
+
+
 main()
